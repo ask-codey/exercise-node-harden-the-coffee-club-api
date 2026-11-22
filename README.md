@@ -12,7 +12,7 @@ Bean There Coffee Club's API works: members sign in, read their own record and c
 - `auth.js`: `signToken(member)` and the `requireUser` middleware, which reads `Authorization: Bearer <token>`. The secret that signs tokens comes from the environment variable `JWT_SECRET`. Ready to use.
 - `server.js`: checks that `JWT_SECRET` is set, then starts the API at `http://localhost:3100`. Ready to use.
 - `.env.example`: the settings the API needs, with a placeholder instead of a secret. Copy it to `.env` (below).
-- `coffee-club.http`: the requests to try, for VS Code's REST Client extension. Ready to use.
+- `coffee-club.insomnia.json`: the requests to try, as an Insomnia collection. Ready to use.
 - `app.test.js` and `rate-limit.test.js`: tests that send requests to your app with Supertest and check each answer. The rate limit has a file of its own, so its count of tries starts from zero. You don't need to change these files.
 - `package.json` and `package-lock.json`: the project's settings, its scripts (`start`, `dev` and `test`) and its packages at exact versions: Express, helmet, cors, express-rate-limit, bcryptjs and jsonwebtoken, and Supertest for the tests. Ready to use.
 - `.gitignore`: keeps `node_modules` and your `.env` out of Git.
@@ -51,7 +51,7 @@ node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"
 npm start
 ```
 
-The terminal says `The Coffee Club API is listening on http://localhost:3100` and keeps running. If it says `.env: not found` or `JWT_SECRET isn't set` instead, make your `.env` first (above). Open `coffee-club.http` and click **Send Request** above any request; REST Client shows the answer beside it. Stop the server with **Ctrl+C**.
+The terminal says `The Coffee Club API is listening on http://localhost:3100` and keeps running. If it says `.env: not found` or `JWT_SECRET isn't set` instead, make your `.env` first (above). In Insomnia, click **Import** in your `Node.js in Depth` project, choose `coffee-club.insomnia.json`, and send any request; its description says what to expect. Stop the server with **Ctrl+C**.
 
 `npm run dev` starts it with `node --watch`, so it restarts each time you save `app.js`. A restart also starts the rate limit's count again.
 

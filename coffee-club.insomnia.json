@@ -1,0 +1,275 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2026-11-22T00:00:00Z",
+  "__export_source": "ask-codey:exercise",
+  "resources": [
+    {
+      "_id": "wrk_coffee_club",
+      "_type": "workspace",
+      "parentId": null,
+      "name": "Harden the Coffee Club API",
+      "description": "Exercise: Harden the Coffee Club API. Start the server first, then send the requests in order; each one's description says what to expect. If your server runs at another address, change base_url in the Base Environment.",
+      "scope": "collection"
+    },
+    {
+      "_id": "env_coffee_club_base",
+      "_type": "environment",
+      "parentId": "wrk_coffee_club",
+      "name": "Base Environment",
+      "data": {
+        "base_url": "http://localhost:3100"
+      },
+      "dataPropertyOrder": {
+        "&": [
+          "base_url"
+        ]
+      },
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 0
+    },
+    {
+      "_id": "jar_coffee_club",
+      "_type": "cookie_jar",
+      "parentId": "wrk_coffee_club",
+      "name": "Default Jar",
+      "cookies": []
+    },
+    {
+      "_id": "req_coffee_club_100",
+      "_type": "request",
+      "parentId": "wrk_coffee_club",
+      "name": "1. The roasts, with helmet's headers and no X-Powered-By",
+      "description": "Expect: 200.",
+      "method": "GET",
+      "url": "{{ _.base_url }}/roasts",
+      "body": {},
+      "headers": [],
+      "parameters": [],
+      "authentication": {},
+      "metaSortKey": 100,
+      "settingSendCookies": true,
+      "settingStoreCookies": true,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_coffee_club_110",
+      "_type": "request",
+      "parentId": "wrk_coffee_club",
+      "name": "2. From the club's web page",
+      "description": "Expect: 200 with Access-Control-Allow-Origin: https://www.beanthere.example.",
+      "method": "GET",
+      "url": "{{ _.base_url }}/roasts",
+      "body": {},
+      "headers": [
+        {
+          "name": "Origin",
+          "value": "https://www.beanthere.example"
+        }
+      ],
+      "parameters": [],
+      "authentication": {},
+      "metaSortKey": 110,
+      "settingSendCookies": true,
+      "settingStoreCookies": true,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_coffee_club_120",
+      "_type": "request",
+      "parentId": "wrk_coffee_club",
+      "name": "3. From another site's page",
+      "description": "Expect: 200, but no Access-Control-Allow-Origin, so a browser hides the answer.",
+      "method": "GET",
+      "url": "{{ _.base_url }}/roasts",
+      "body": {},
+      "headers": [
+        {
+          "name": "Origin",
+          "value": "https://coffee-deals.example"
+        }
+      ],
+      "parameters": [],
+      "authentication": {},
+      "metaSortKey": 120,
+      "settingSendCookies": true,
+      "settingStoreCookies": true,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_coffee_club_130",
+      "_type": "request",
+      "parentId": "wrk_coffee_club",
+      "name": "4. A preflight, as a browser sends it before a PATCH with a token",
+      "description": "Expect: 204, allowing PATCH.",
+      "method": "OPTIONS",
+      "url": "{{ _.base_url }}/members/me",
+      "body": {},
+      "headers": [
+        {
+          "name": "Origin",
+          "value": "https://www.beanthere.example"
+        },
+        {
+          "name": "Access-Control-Request-Method",
+          "value": "PATCH"
+        },
+        {
+          "name": "Access-Control-Request-Headers",
+          "value": "authorization,content-type"
+        }
+      ],
+      "parameters": [],
+      "authentication": {},
+      "metaSortKey": 130,
+      "settingSendCookies": true,
+      "settingStoreCookies": true,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_coffee_club_140",
+      "_type": "request",
+      "parentId": "wrk_coffee_club",
+      "name": "5. Dana signs in",
+      "description": "Expect: 200 with a token (the requests below use it)",
+      "method": "POST",
+      "url": "{{ _.base_url }}/auth/sign-in",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{ \"email\": \"dana@beanthere.example\", \"password\": \"dana-test-password\" }"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "parameters": [],
+      "authentication": {},
+      "metaSortKey": 140,
+      "settingSendCookies": true,
+      "settingStoreCookies": true,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_coffee_club_150",
+      "_type": "request",
+      "parentId": "wrk_coffee_club",
+      "name": "6. Dana's own record",
+      "description": "Expect: 200.",
+      "method": "GET",
+      "url": "{{ _.base_url }}/members/me",
+      "body": {},
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {% response 'body', 'req_coffee_club_140', 'b64::JC50b2tlbg==::46b', 'never', 60 %}"
+        }
+      ],
+      "parameters": [],
+      "authentication": {},
+      "metaSortKey": 150,
+      "settingSendCookies": true,
+      "settingStoreCookies": true,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_coffee_club_160",
+      "_type": "request",
+      "parentId": "wrk_coffee_club",
+      "name": "7. A change that tries to make Dana an admin",
+      "description": "Expect: 200, but only favoriteRoast changes.",
+      "method": "PATCH",
+      "url": "{{ _.base_url }}/members/me",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{ \"favoriteRoast\": \"Night Owl\", \"role\": \"admin\", \"cupsLeft\": 999 }"
+      },
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer {% response 'body', 'req_coffee_club_140', 'b64::JC50b2tlbg==::46b', 'never', 60 %}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "parameters": [],
+      "authentication": {},
+      "metaSortKey": 160,
+      "settingSendCookies": true,
+      "settingStoreCookies": true,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_coffee_club_170",
+      "_type": "request",
+      "parentId": "wrk_coffee_club",
+      "name": "8. An operator object instead of an email",
+      "description": "Expect: 400.",
+      "method": "POST",
+      "url": "{{ _.base_url }}/auth/sign-in",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{ \"email\": { \"$gt\": \"\" }, \"password\": \"dana-test-password\" }"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "parameters": [],
+      "authentication": {},
+      "metaSortKey": 170,
+      "settingSendCookies": true,
+      "settingStoreCookies": true,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_coffee_club_180",
+      "_type": "request",
+      "parentId": "wrk_coffee_club",
+      "name": "9. A wrong password",
+      "description": "Expect: 401. Send it again until the answer is 429 (the sign-ins above count as tries too)",
+      "method": "POST",
+      "url": "{{ _.base_url }}/auth/sign-in",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{ \"email\": \"dana@beanthere.example\", \"password\": \"a-wrong-guess\" }"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "parameters": [],
+      "authentication": {},
+      "metaSortKey": 180,
+      "settingSendCookies": true,
+      "settingStoreCookies": true,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    }
+  ]
+}
